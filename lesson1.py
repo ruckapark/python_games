@@ -123,7 +123,7 @@ We can use slices which we will be using a lot to make out games
 Similarly if we have a list of numbers we can use conditions to only select the numbers below 10
 """
 
-register.append('Charlotte','Isobel','Ellie','Ian')
+register.append(name for name in ['Charlotte','Isobel','Ellie','Ian'])
 #What happens if we put those four in a list?
 #exercise use pop to do the opposite of append
 print(len(register))
@@ -285,11 +285,13 @@ The coordinate system starts from the top left
 Having a look at it we might want to crop out the bottom half to size 1920,600
 crop((left,top,right,bottom))
 """
-thunder = thunder.crop((0,thunder_dims[1]-600,thunder_dims[0],thunder_dims[1])).show()
+thunder = thunder.crop((0,thunder_dims[1]-600,thunder_dims[0],thunder_dims[1]))
+thunder.show()
 os.chdir(games_pic_dir)
 thunder.save('thunder_background.png')
 #challenge try to save to this directory but without changing it manually
 #hint if you include the path of where you would like to save it in the file name it will save in this location!
+
 
 #%%
 """
@@ -321,6 +323,16 @@ python = PIL.Image.open('python.png')
 python_size = python.size
 python_grey = python.convert('L') #L stands for greyscale
 
+python_grey.show() #perhaps we could use this for a black and white map in a game?
+#check the mode of the image - if rgba convert to rgb as we dont need transparency
+python = python.convert("RGB") #not nothing will happen if we dont have the equals in there!
+r,g,b = python.split()
+new_python = PIL.Image.merge("RGB",(b,g,r))
+new_python.show()
+
+#give them a list of colour combos and see if they can get a certain 3 colour combos (tbd)
+
+#%%
 #for the player we will probably want it a bit smaller than the image
 python_small = python.resize((64,64))
 python_small.show()
