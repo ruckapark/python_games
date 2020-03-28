@@ -30,17 +30,27 @@ pygame.display.set_icon(icon)
 
 #%% Add player to a certain location
 
+#this can be a challenge addition - no need for the background in the working game
+background = pygame.image.load('background.jpg') #moving background? - challenge
+
 playerImg = pygame.image.load('player_icon.PNG')
 space_invador = pygame.image.load('space_invador.PNG')
+bullet = pygame.image.load('bullet.PNG')
 os.chdir('..')
+
+#%%
 #the player image is pixeled in the same way so we have to take size in to get the middle
 player_size = (64,64)
-enemy_size = (16,16) #make this automatic?
+enemy_size = (32,32) #make this automatic?
+bullet_size = enemy_size #assume same sizes
 #try playing around with these values - what happens?
 playerX_zero = (screen_size[0] - player_size[0])//2
 playerY_zero = (screen_size[1] - player_size[1]) - 100
 playerX,playerY = playerX_zero,playerY_zero
 enemyX, enemyY = random.randint(0,screen_size[0]-enemy_size[0]),50 #make it a random location
+bulletX, bulletY = 0,playerY
+bullet_speed = 10 #moving back up y axis
+bullet_state = 0 #unfired
 
 direc = 0
 enemy_direc = enemyX%2
@@ -48,10 +58,11 @@ if not enemy_direc: enemy_direc -= 1
 
 #add boundaries so our player can't leave the board
 Xmin,Xmax_player,Xmax_enemy = 0,screen_size[0]-player_size[0],screen_size[0]-enemy_size[0] #could index 1 and see if they can debug
+Ymax_enemy = playerY - enemy_size[1]
 
 #ask user how fast they want to go
-speed = float(input('From 0.1 - 1, how fast do you want to move?'))
-enemy_speed = float(input('From 0.1 - 1, how fast do you want enemies to move?'))
+speed = float(input('From 1-10, how fast do you want to move?'))
+enemy_speed = float(input('From 1-10, how fast do you want enemies to move?'))
 
 def player(x,y):
     """
@@ -61,6 +72,15 @@ def player(x,y):
     
 def enemy(x,y):
     screen.blit(space_invador, (x,y))
+    
+def fire_bullet(x,y):
+    global bullet_state
+    """
+    Fired when the bullet gets shot with space bar
+    """
+    bullet_state = 1
+    screen.blit(bullet, ((x + player_size[0]/4), y+player_size[0]/2))
+    
 
 #%%
 
@@ -72,13 +92,24 @@ while running:
     #lets modify what this background looks like
     #try color to rgb!        
     screen.fill((0,200,0)) #rgb like we did before!
+    #add background
+    screen.blit(background,(0,0))
     
     #player must be after the screen fill!
     player(playerX,playerY)
     enemy(enemyX,enemyY)    #as soon as we put this in check its there
-    pygame.display.update() #otherwise the pygame screeen will stay black
     
     # playerX += 0.1 # to move right slowly
+           
+    playerX += direc*speed
+    enemyX += enemy_direc * enemy_speed
+    
+    if bullet_state:
+        bulletY -= bullet_speed
+        fire_bullet(bulletX,bulletY)
+        if bulletY < 0: 
+            bullet_state = 0
+            bulletY = playerY
     
     #the game keeps running, we press buttons that get stored in event!
     for event in pygame.event.get(): #keep looping through the lise of events
@@ -95,15 +126,15 @@ while running:
             elif event.key == pygame.K_RIGHT:
                 direc = 1
                 print('moving {}'.format(direc))
-                
+            if event.key == pygame.K_SPACE:
+                if not bullet_state:
+                    fire_bullet(playerX,bulletY)
+                    bulletX = playerX
         #have to stop moving
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 print('direction released')
                 direc = 0
-           
-    playerX += direc*speed
-    enemyX += enemy_direc * enemy_speed
     
     if playerX <= Xmin:
         playerX = Xmin
@@ -112,4 +143,6 @@ while running:
         
     if enemyX <= Xmin or enemyX >= Xmax_enemy:
         enemy_direc = -enemy_direc
-        enemyY += 25
+        enemyY += enemy_size[1]
+        
+    pygame.display.update() #otherwise the pygame screeen will stay black
