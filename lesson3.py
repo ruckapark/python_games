@@ -34,14 +34,21 @@ os.chdir('..')
 #the player image is pixeled in the same way so we have to take size in to get the middle
 player_size = (64,64)
 #try playing around with these values - what happens?
-playerX = screen_size[0]/2 - player_size[0]/2
-playerY = (screen_size[1] - player_size[1]) - 100
+X_zero = (screen_size[0] - player_size[0])//2
+Y_zero = (screen_size[1] - player_size[1]) - 100
+playerX,playerY = X_zero,Y_zero
 
-def player():
+#add boundaries so our player can't leave the board
+Xmin,Xmax = 0,screen_size[0]-player_size[0] 
+
+#ask user how fast they want to go
+speed = float(input('From 0.1 - 1, how fast do you want to move?'))
+
+def player(x,y):
     """
     blit is like drawing on a game screen. Each frame we want out program to blit the player character on the game screen
     """
-    screen.blit(playerImg, (playerX,playerY))
+    screen.blit(playerImg, (x,y))
 
 #%%
 
@@ -54,16 +61,38 @@ while running:
     #try color to rgb!        
     screen.fill((0,200,0)) #rgb like we did before!
     
+    #player must be after the screen fill!
+    player(playerX,playerY)
+    pygame.display.update() #otherwise the pygame screeen will stay black
+    
+    # playerX += 0.1 # to move right slowly
+    
     #the game keeps running, we press buttons that get stored in event!
     for event in pygame.event.get(): #keep looping through the lise of events
         if event.type == pygame.QUIT:#stop running the while loop if we close it
             pygame.quit()    #shut game window
             running = False  #stop python program
+            
+        # check for a keystroke event (left or right)
+        if event.type == pygame.KEYDOWN:
+            print('Something is pressed')
+            if event.key == pygame.K_LEFT:
+                direc = -1
+                print('moving {}'.format(direc))
+            elif event.key == pygame.K_RIGHT:
+                direc = 1
+                print('moving {}'.format(direc))
+                
+        #have to stop moving
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                print('direction released')
+                direc = 0
+           
+    playerX += direc*speed
     
-    #player must be after the screen fill!
-    player()
-    pygame.display.update() #otherwise the pygame screeen will stay black
-    
-    
-    
-    
+    if playerX <= Xmin:
+        playerX = Xmin
+    elif playerX >= Xmax:
+        playerX = Xmax
+        
