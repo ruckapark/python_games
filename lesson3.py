@@ -11,6 +11,7 @@ pygame space invaders main
 
 import pygame
 import os
+import random
 
 #pygame initialisation
 pygame.init()
@@ -30,25 +31,36 @@ pygame.display.set_icon(icon)
 #%% Add player to a certain location
 
 playerImg = pygame.image.load('player_icon.PNG')
+space_invador = pygame.image.load('space_invador.PNG')
 os.chdir('..')
 #the player image is pixeled in the same way so we have to take size in to get the middle
 player_size = (64,64)
+enemy_size = (16,16) #make this automatic?
 #try playing around with these values - what happens?
-X_zero = (screen_size[0] - player_size[0])//2
-Y_zero = (screen_size[1] - player_size[1]) - 100
-playerX,playerY = X_zero,Y_zero
+playerX_zero = (screen_size[0] - player_size[0])//2
+playerY_zero = (screen_size[1] - player_size[1]) - 100
+playerX,playerY = playerX_zero,playerY_zero
+enemyX, enemyY = random.randint(0,screen_size[0]-enemy_size[0]),50 #make it a random location
+
+direc = 0
+enemy_direc = enemyX%2
+if not enemy_direc: enemy_direc -= 1
 
 #add boundaries so our player can't leave the board
-Xmin,Xmax = 0,screen_size[0]-player_size[0] 
+Xmin,Xmax_player,Xmax_enemy = 0,screen_size[0]-player_size[0],screen_size[0]-enemy_size[0] #could index 1 and see if they can debug
 
 #ask user how fast they want to go
 speed = float(input('From 0.1 - 1, how fast do you want to move?'))
+enemy_speed = float(input('From 0.1 - 1, how fast do you want enemies to move?'))
 
 def player(x,y):
     """
     blit is like drawing on a game screen. Each frame we want out program to blit the player character on the game screen
     """
     screen.blit(playerImg, (x,y))
+    
+def enemy(x,y):
+    screen.blit(space_invador, (x,y))
 
 #%%
 
@@ -63,6 +75,7 @@ while running:
     
     #player must be after the screen fill!
     player(playerX,playerY)
+    enemy(enemyX,enemyY)    #as soon as we put this in check its there
     pygame.display.update() #otherwise the pygame screeen will stay black
     
     # playerX += 0.1 # to move right slowly
@@ -90,9 +103,13 @@ while running:
                 direc = 0
            
     playerX += direc*speed
+    enemyX += enemy_direc * enemy_speed
     
     if playerX <= Xmin:
         playerX = Xmin
-    elif playerX >= Xmax:
-        playerX = Xmax
+    elif playerX >= Xmax_player:
+        playerX = Xmax_player
         
+    if enemyX <= Xmin or enemyX >= Xmax_enemy:
+        enemy_direc = -enemy_direc
+        enemyY += 25
