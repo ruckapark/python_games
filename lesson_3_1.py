@@ -49,7 +49,7 @@ colour_dict = dict(zip(colours, rgb_values))
 running = True
 while running:
 
-    # Fill the background with white
+    # Fill the background with black
     screen.fill(colour_dict['black'])
 
     # Draw a solid blue circle in the center
@@ -57,9 +57,6 @@ while running:
     pygame.draw.lines(screen, colour_dict['white'], False, [(0,175),(500,175)])
     pygame.draw.lines(screen, colour_dict['white'], False, [(0,225),(500,225)])
     pygame.draw.rect(screen, colour_dict['black'],(250,250,30,20))
-
-    # Flip the display
-    pygame.display.update()
     
     #5. Did the user click the window close button?
     for event in pygame.event.get():
@@ -67,6 +64,8 @@ while running:
             print('Something is pressed')
         if event.type == pygame.QUIT:
             running = False
+            
+    pygame.display.update()
     
 #6. Done! Time to quit. If we break out of the loop remember to shut the window down.
 pygame.quit()
