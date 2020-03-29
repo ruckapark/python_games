@@ -33,8 +33,10 @@ pygame.display.set_icon(icon)
 #this can be a challenge addition - no need for the background in the working game
 background = pygame.image.load('background.jpg') #moving background? - challenge
 
+difficulty = int(input('How many enemies do you want?'))
+
 playerImg = pygame.image.load('player_icon.PNG')
-space_invador = pygame.image.load('space_invador.PNG')
+space_invador = [pygame.image.load('space_invador.PNG') for i in range(difficulty)]
 bullet = pygame.image.load('bullet.PNG')
 os.chdir('..')
 
@@ -47,14 +49,21 @@ bullet_size = enemy_size #assume same sizes
 playerX_zero = (screen_size[0] - player_size[0])//2
 playerY_zero = (screen_size[1] - player_size[1]) - 100
 playerX,playerY = playerX_zero,playerY_zero
-enemyX, enemyY = random.randint(0,screen_size[0]-enemy_size[0]),50 #make it a random location
+
 bulletX, bulletY = 0,playerY
 bullet_speed = 10 #moving back up y axis
 bullet_state = 0 #unfired
+bullet_distance = 100
 
+enemyX,enemyY,enemy_direc = [],[],[]
+for i in range(difficulty):
+    enemyX.append(random.randint(0,screen_size[0]-enemy_size[0]))
+    enemyY.append(50)
+    enemy_direc.append(enemyX[i]%2)
+    if not enemy_direc[i]: enemy_direc[i] = -1
+
+score = 0
 direc = 0
-enemy_direc = enemyX%2
-if not enemy_direc: enemy_direc -= 1
 
 #add boundaries so our player can't leave the board
 Xmin,Xmax_player,Xmax_enemy = 0,screen_size[0]-player_size[0],screen_size[0]-enemy_size[0] #could index 1 and see if they can debug
@@ -70,8 +79,8 @@ def player(x,y):
     """
     screen.blit(playerImg, (x,y))
     
-def enemy(x,y):
-    screen.blit(space_invador, (x,y))
+def enemy(x,y,i):
+    screen.blit(space_invador[i], (x,y))
     
 def fire_bullet(x,y):
     global bullet_state
@@ -81,6 +90,10 @@ def fire_bullet(x,y):
     bullet_state = 1
     screen.blit(bullet, ((x + player_size[0]/4), y+player_size[0]/2))
     
+def is_collision(x1,y1,x2,y2,enemy_size):
+    d = ((x1-x2)**2 + (y1-y2)**2)**0.5
+    if d < enemy_size: return True
+    else: return False
 
 #%%
 
@@ -97,25 +110,39 @@ while running:
     
     #player must be after the screen fill!
     player(playerX,playerY)
-    enemy(enemyX,enemyY)    #as soon as we put this in check its there
-    
-    # playerX += 0.1 # to move right slowly
-           
     playerX += direc*speed
-    enemyX += enemy_direc * enemy_speed
     
-    if bullet_state:
-        bulletY -= bullet_speed
-        fire_bullet(bulletX,bulletY)
-        if bulletY < 0: 
-            bullet_state = 0
-            bulletY = playerY
+    if bullet_state:        #can't have this in for loop or bullet goes up too fast
+            bulletY -= bullet_speed
+            fire_bullet(bulletX,bulletY)
+        
+    for i in range(difficulty):
+        enemy(enemyX[i],enemyY[i],i)    #as soon as we put this in check its there
+        enemyX[i] += enemy_direc[i] * enemy_speed
+        
+        if enemyX[i] <= Xmin or enemyX[i] >= Xmax_enemy:
+            enemy_direc[i] = -enemy_direc[i]
+            enemyY[i] += enemy_size[1]
+    
+        if bullet_state:        #can't have this in for loop or bullet goes up too fast
+            collision = is_collision(bulletX,bulletY,enemyX[i],enemyY[i],32)
+            if bulletY < 0: 
+                bullet_state = 0
+                bulletY = playerY
+            elif collision:
+                score += 1
+                bullet_state = 0
+                bulletY = playerY
+                enemyX[i], enemyY[i] = random.randint(0,screen_size[0]-enemy_size[0]),50
+            
+    pygame.display.update() #otherwise the pygame screeen will stay black
     
     #the game keeps running, we press buttons that get stored in event!
     for event in pygame.event.get(): #keep looping through the lise of events
         if event.type == pygame.QUIT:#stop running the while loop if we close it
             pygame.quit()    #shut game window
             running = False  #stop python program
+            
             
         # check for a keystroke event (left or right)
         if event.type == pygame.KEYDOWN:
@@ -140,9 +167,3 @@ while running:
         playerX = Xmin
     elif playerX >= Xmax_player:
         playerX = Xmax_player
-        
-    if enemyX <= Xmin or enemyX >= Xmax_enemy:
-        enemy_direc = -enemy_direc
-        enemyY += enemy_size[1]
-        
-    pygame.display.update() #otherwise the pygame screeen will stay black
