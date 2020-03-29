@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Mar 29 17:32:54 2020
+Created on Sun Mar 29 18:13:53 2020
+
+Make sure there is a directory in the working directory known as "SI Pictures"
+
+This will stand for Space Invaders Pictures
 
 @author: George
 """
@@ -23,6 +27,8 @@ from pygame.locals import (
 )
 
 base_dir = os.getcwd() #store original directory
+
+score = 0
 
 colours = 'red green blue darkBlue white black pink'.split()
 rgb_values = [(255,0,0),(0,255,0),(0,0,255),(0,0,128),(255,255,255),(0,0,0),(255,200,200)]
@@ -51,9 +57,9 @@ player_speed = speed = 5
 
 bullet = pygame.image.load('bullet.PNG')
 bullet_size = 32
-bulletX = playerX + bullet_size/2       #initial trajectory in line with middle of player
+bulletX = playerX                       #initial trajectory
 bulletY = playerY + bullet_size         #will change - negative direction
-bullet_speed = 8
+bullet_speed = 5
 bullet_on = 0
 
 enemy = []
@@ -61,7 +67,7 @@ enemy_size = 32
 enemyX = []
 enemyY = []
 enemy_direc = []
-enemy_speed = 3
+enemy_speed = 1
 difficulty = int(input('How many enemies do you want to fight?'))
 for i in range(difficulty):
     enemy.append(pygame.image.load('space_invader.PNG'))
@@ -76,9 +82,12 @@ def player_(x,y):
     screen.blit(player,(x,y))
 def enemy_(x,y,i):
     screen.blit(enemy[i],(x,y))
-
 def fire_(x,y):
     screen.blit(bullet,(x,y))
+def collision_(x1,y1,x2,y2):
+    d = ((x1 - x2)**2 + (y1 - y2)**2)**0.5
+    if d < enemy_size: return True
+    else: return False
 
 running = True
 while running:
@@ -94,21 +103,53 @@ while running:
     if bullet_on:
         fire_(bulletX,bulletY)
     
+    #update the loaction of the player
+    playerX += player_direc * player_speed
+    #check it hasn't exceeded its bounds
+    if playerX <= 0:
+        playerX = 0
+    elif playerX >= (screen_w - player_size):
+        playerX = screen_w - player_size
+        
+    #add bullets and see if they have left the screen
+    if bullet_on:
+        bulletY -= bullet_speed
+        if bulletY <= 0:
+            bulletY = playerY + bullet_size
+            bullet_on = 0
+    
+    #update the location of the enemies
+    for i in range(difficulty):
+        enemyX[i] += enemy_direc[i] * enemy_speed
+        #change direction and descend if it reaches the edge
+        if enemyX[i] <= 0 or enemyX[i] >= screen_w - enemy_size:
+            enemy_direc[i] = enemy_direc[i] * -1
+            enemyY[i] += enemy_size
+            
+        if bullet_on:
+            collision = collision_(enemyX[i],enemyY[i],bulletX,bulletY)
+            if collision:
+                score += 1
+                bullet_on = 0
+                bulletY = playerY
+                enemyX[i], enemyY[i] = random.randint(5,screen_w - enemy_size - 5),2*enemy_size
+                
     #not how we now just type the command directly
     for event in pygame.event.get():
         
         #print in command if anything gets pressed, and if it is a left or a right
         if event.type == KEYDOWN:
-            print('Something was pressed')
             if event.key == K_LEFT:
                 player_direc = -1
             elif event.key == K_RIGHT:
                 player_direc = 1
             
             if event.key == K_SPACE:
-                bullet_on = 1
-                bulletX = playerX + bullet_size/2
-                fire_(bulletX,bulletY)
+                #only allow if bullet is not in air
+                if bullet_on == 0:
+                    bullet_on = 1
+                    bulletX = playerX
+                    fire_(bulletX,bulletY)
                 
         #we want the release of the key to stop the movement
         if event.type == KEYUP:
@@ -118,31 +159,9 @@ while running:
         if event.type == QUIT:
             running = False
     
-    #update the loaction of the player
-    playerX += player_direc * player_speed
-    #check it hasn't exceeded its bounds
-    if playerX <= 0:
-        playerX = 0
-    elif playerX >= (screen_w - player_size):
-        playerX = screen_w - player_size
-    
-    #update the location of the enemies
-    for i in range(difficulty):
-        enemyX[i] += enemy_direc[i] * enemy_speed
-        #change direction and descend if it reaches the edge
-        if enemyX[i] <= 0 or enemyX[i] >= screen_w - enemy_size:
-            enemy_direc[i] = enemy_direc[i] * -1
-            enemyY[i] += enemy_size
-        
-    #add bullets and see if they have left the screen
-    if bullet_on:
-        bulletY -= bullet_speed
-        if bulletY <= 0:
-            bulletY = playerY + bullet_size
-            bullet_on = 0
-    
     #update display at each iteration
     pygame.display.update()
     
+print('Your score was {}'.format(score))
 os.chdir(base_dir)
 pygame.quit()
