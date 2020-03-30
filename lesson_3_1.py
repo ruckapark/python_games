@@ -55,7 +55,7 @@ while running:
     # Draw a solid blue circle in the center
     pygame.draw.circle(screen, colour_dict['pink'], (250, 250), 75)
     pygame.draw.lines(screen, colour_dict['white'], False, [(0,175),(500,175)])
-    pygame.draw.lines(screen, colour_dict['white'], False, [(0,225),(500,225)])
+    pygame.draw.lines(screen, colour_dict['white'], False, [(0,325),(500,325)])
     pygame.draw.rect(screen, colour_dict['black'],(250,250,30,20))
     
     #5. Did the user click the window close button?
