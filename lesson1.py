@@ -263,13 +263,11 @@ import os #say we will focus more on libraries next session
 base_directory = os.getcwd() #get current working directory
 print(base_directory)
 os.listdir()
-os.mkdir('Game_pictures')
-os.listdir()
 games_pic_dir = base_directory + '\\Game_pictures' #remember its a folder!
 
 #%%
 import PIL #do we really need to import this whole module?
-os.chdir(r'C:\\Users\\George\\Pictures\\Gaming')
+os.chdir(games_pic_dir)
 #check photos
 os.listdir()
 thunder = PIL.Image.open('thunder.jpg')
@@ -287,7 +285,6 @@ crop((left,top,right,bottom))
 """
 thunder = thunder.crop((0,thunder_dims[1]-600,thunder_dims[0],thunder_dims[1]))
 thunder.show()
-os.chdir(games_pic_dir)
 thunder.save('thunder_background.png')
 #challenge try to save to this directory but without changing it manually
 #hint if you include the path of where you would like to save it in the file name it will save in this location!
@@ -318,7 +315,6 @@ Lets try to change the colours so we can use a different python for every map!
 """
 
 #load the python logo
-os.chdir(r'C:\\Users\\George\\Pictures\\Gaming')
 python = PIL.Image.open('python.png')
 python_size = python.size
 python_grey = python.convert('L') #L stands for greyscale
