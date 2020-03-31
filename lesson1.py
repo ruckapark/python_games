@@ -166,9 +166,6 @@ print('The cwd is: {}'.format(cwd))
 """
 EXERCISES: print a string backwards
     
-    
-    
-    
 """
 
 #%%
@@ -302,9 +299,7 @@ sea = PIL.Image.open('sea.jpg')
 countryside = PIL.Image.open('countryside.jpg')
 backgrounds = [thunder,city,sea,countryside]
 """
-How could we split a directory about a certain character or word ? i.e. documents
-How could we then use this to go directly to the pictures folder?
-Another inbuilt function is known as split
+You'll need something similar for the challenge!
 """
 
 #%%
@@ -317,7 +312,7 @@ Lets try to change the colours so we can use a different python for every map!
 #load the python logo
 python = PIL.Image.open('python.png')
 python_size = python.size
-python_grey = python.convert('L') #L stands for greyscale
+python_grey = python.convert('LA') #L stands for greyscale
 
 python_grey.show() #perhaps we could use this for a black and white map in a game?
 #check the mode of the image - if rgba convert to rgb as we dont need transparency
