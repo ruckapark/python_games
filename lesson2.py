@@ -226,7 +226,6 @@ print(enemy_1.speed)
 enemy_3.describe()
 
 
-#modules and packages (os, PIL, numpy, random, turtledraw)
-
-
-#lambda functions? - challenge maybe
+#modules and packages (os, PIL, numpy, random, turtledraw, tinker maybe)
+# from x import y
+# import x as y
