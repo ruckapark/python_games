@@ -225,7 +225,201 @@ enemy_3.speed = 5      #make it a bit slower
 print(enemy_1.speed)
 enemy_3.describe()
 
+"""
+To understand why a class is really useful we need to understand the init function
 
-#modules and packages (os, PIL, numpy, random, turtledraw, tinker maybe)
+This function is built in and runs automatically when we make a class
+The easiest way to understand this is with an example of using __init__  and self together
+
+We always start classes with a capital letter to keep things consistent!
+"""
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+p1 = Person("John", 36)
+p2 = Person("George", 23)
+p3 = Person("Tom",15)
+
+people = [p1,p2,p3]
+
+for person in people:
+    print(person.name, ' is:',person.age)
+    
+"""
+We don't have to use 'self' it just keeps things easy to read
+
+Let's see if we can work out what is going on here:
+    - clearly if we use self it looks a lot neater!
+"""
+
+class Person:
+  def __init__(mysillyobject, name, age):
+    mysillyobject.name = name
+    mysillyobject.age = age
+
+  def myfunc(abc):
+    print("Hello my name is " + abc.name)
+
+p1 = Person("John", 36)
+p1.myfunc()
+
+#easier to read
+class Person:
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+  def myfunc(self):
+    print("Hello my name is " + self.name)
+
+p1 = Person("John", 36)
+p1.myfunc()
+
+# something that can be useful to know is what we call a recurring function!
+def factorial_recursive(n):
+    # Base case: 1! = 1
+    if n == 1:
+        return 1
+
+    # Recursive case: n! = n * (n-1)!
+    else:
+        return n * factorial_recursive(n-1)
+    
+#the line by line code for n = 5:
+n = 4
+fact = 1
+if n == 1: 
+    result = fact
+else: 
+    fact = n * n-1
+    n -= 1
+    
+#now n = 3 so we want to run the same code as above until we get to n = 1 this is what will happen if we run:
+factorial = factorial_recursive(4)
+    
+
+#%% see if that can do these ones by themselves
+
+def max_of_three(a,b,c):
+    """
+    Write a Python function to find the Max of three numbers
+    
+    in reality we would just use the python inbuilt function!
+    """
+    if a > b and a > c:
+        return a
+    elif b > a and b > c:
+        return b 
+    else:
+        return c
+    
+def unique_counts(list_):
+    """
+    Write a Python function that takes a list and returns a new list with unique elements of the first lis
+    """
+    new_list = []
+    for element in list_:
+        if element not in new_list: new_list.append(element)
+    
+
+#%%modules and packages (os, PIL, numpy, random, turtledraw, tinker maybe)
 # from x import y
 # import x as y
+import turtle
+
+george = turtle.Turtle()
+
+# set the speed to the highest setting
+george.speed(1)
+
+# draw a square
+for i in range(4):
+  george.forward(50)
+  george.right(90)
+
+# move the turtle
+george.penup()
+
+george.back(50)
+george.right(90)
+george.forward(55)
+george.left(90)
+
+george.pendown()
+
+# draw a triangle
+for i in range(3):
+  george.forward(150)
+  george.left(120)
+
+# move the turtle
+george.penup()
+
+george.back(40)
+george.right(90)
+george.back(50)
+
+george.pendown()
+
+# draw a circle
+for i in range(360):
+  george.forward(2)
+  george.left(1)
+  
+  
+#%%
+turtle.clearscreen()
+turtle.reset()
+  
+colors = ['red','blue','green','yellow']
+#here is how we fill a circle
+
+george.color('green','yellow')
+george.width(6)
+george.begin_fill()
+george.circle(40)
+george.end_fill()
+
+def square(turtle_,length):
+    for i in range(4):
+        turtle_.forward(length)
+        turtle_.right(90)
+        
+george.penup()
+george.forward(100)
+george.pendown()
+
+george.color('red','blue')
+george.begin_fill()
+square(george,75)
+george.end_fill()
+
+import random
+def circle(turtle_):
+    
+    colors = 'red blue green yellow black'.split()
+    
+    x = random.randint(-150,150)
+    y = random.randint(-150,150)
+    radius = random.randint(10,70)
+    color_line = colors[random.randint(0,4)]
+    color_fill = colors[random.randint(0,4)]
+    thickness = random.randint(0,radius//2)
+        
+    
+    turtle_.penup()
+    turtle_.goto(x,y)
+    turtle_.pendown()
+    turtle_.width = thickness
+    turtle_.color(color_line,color_fill)
+    turtle_.begin_fill()
+    turtle_.circle(radius)
+    turtle_.end_fill()
+        
+
+for i in range(10):
+    circle(george)
+    
+turtle.Screen().exitonclick()

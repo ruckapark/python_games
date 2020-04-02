@@ -40,56 +40,14 @@ If you get stuck on this challenge, the best option is to look online for help a
 
 
 # create a turtle
-from turtle import Turtle
+import turtle
+import os
 
-belinda = Turtle()
 
-# set the speed to the highest setting
-belinda.speed(100)
+"""
+Taking inspiration from one of the backgrounds we made for flappy bird, make one more background of the same size, using turtle
 
-# draw a square
-for i in range(4):
-  belinda.forward(50)
-  belinda.right(90)
+Here is a code for one that I made that you can use as inspiration!
 
-# move the turtle
-belinda.penup()
-
-belinda.back(50)
-belinda.right(90)
-belinda.forward(55)
-belinda.left(90)
-
-belinda.pendown()
-
-# draw a triangle
-for i in range(3):
-  belinda.forward(150)
-  belinda.left(120)
-
-# move the turtle
-belinda.penup()
-
-belinda.back(40)
-belinda.right(90)
-belinda.back(50)
-
-belinda.pendown()
-
-# draw a circle
-for i in range(360):
-  belinda.forward(2)
-  belinda.left(1)
-
-# square function
-
-def draw_square(turtle, length):
-  for i in range(4):
-    turtle.forward(length)
-    turtle.right(90)
-
-# shape function
-def draw_shape(turtle, sides, length):
-  for i in range(sides):
-    turtle.forward(length)
-    turtle.right(360/sides)
+It shows how I saved it as a picture in the flappy bird backgrounds folder!
+"""
