@@ -35,4 +35,4 @@ Make a script that does the following:
 # print the list
 
 
-# print lenght, first three and last three letters of any string with more that 4 letters
+# print length, first three and last three letters of any string with more that 4 letters

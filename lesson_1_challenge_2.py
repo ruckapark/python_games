@@ -2,6 +2,8 @@
 """
 Created on Tue Mar 31 12:32:48 2020
 
+An example of a simple twenty questions style game
+
 @author: George
 """
 
