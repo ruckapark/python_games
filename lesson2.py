@@ -210,8 +210,9 @@ for i, (key,value) in enumerate(zip_dic.items()):
     
 class ClassA:
     #a default speed for all objects of class A
-    speed = 10
-    player_type = 'enemy' #class A is for the enemies
+    def __init__(self):
+        self.speed = 10
+        self.player_type = 'enemy' #class A is for the enemies
 
     #self refers to the variables within the class itself
     def describe(self):

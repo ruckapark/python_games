@@ -6,7 +6,7 @@ Created on Wed Apr  1 07:49:14 2020
 """
 
 """
-# Challenge 5 - turtles
+# Challenge - turtles
 
 Each of these challenges requires you to use the skills you have so far learnt, as well as a couple of new things. They give you the chance to practice core concepts and improve your skills reading/researching code.
 
