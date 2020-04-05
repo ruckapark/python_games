@@ -328,6 +328,17 @@ def unique_counts(list_):
 #%%modules and packages (os, PIL, numpy, random, turtledraw, tinker maybe)
 # from x import y
 # import x as y
+#numpy and scipy are the maths modules most widely used, we wont need them much but look at how easy it is compared with writing a function for a list ourself.
+import numpy as np
+x = np.array([1,2,3,4])
+y = np.array([2,4,6,8])
+
+print(x/y)
+print(x*y)
+print(np.mean([x,y]))
+print(np.transpose(x))
+
+        
 import turtle
 
 george = turtle.Turtle()
