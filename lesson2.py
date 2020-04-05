@@ -338,7 +338,7 @@ print(x*y)
 print(np.mean([x,y]))
 print(np.transpose(x))
 
-        
+#%%
 import turtle
 
 george = turtle.Turtle()
