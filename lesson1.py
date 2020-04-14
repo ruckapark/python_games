@@ -201,13 +201,25 @@ Two very important words in python are True and False
 Lets learn what an if statement is to see why
 """
 x = 10
-#if x = 10: print('hello') wont work
+#remember double equals for checking if something is equal to
 if x == 10: print('hello')
-if x != 10: print('hello') #what is another way of typing out not?
+if x != 10: 
+    print('x is not 10')
+else:
+    print('x must be 10')
 if x == 10:
     print('adding one to x!')
     x = x + 1 #challenge to see if they can shorten this line to += 1 in the challenges
     print('x is now: {}'.format(x))
+    
+chars = ['Mario','Luigi','Toad']
+if 'Mario' in chars:
+    print('Mario is in the list')
+    
+if 'Mario' and 'Princess' in chars:
+    print('Mario and Princess are in the list')
+elif 'Mario' or 'Princess' in chars:
+    print('One of the characters is in the chars')
 
 #this is what the computer is seeing
 if True:
@@ -217,10 +229,32 @@ elif False:
     
 """
 EXERCISES:
-    see if a certain letter is in the strings
+    1. Change the chars to a list of characters from a game you like, 
+    see if you can make the if statements work with those chars.
     
+    2. Try making a statement with if, elif, elif: (example below)
 """
-    
+number = [0,3,6,9,11]
+if number[0] == 9:
+    print('9 is first in the list')
+elif number[1] == 9:
+    print('9 is second in the list')
+elif number[2] == 9:
+    print('9 is third in the list')
+elif number[3] == 9:
+    print('9 is fourth in the list')
+
+"""
+    3. Make a variable x equal to a number that is greater than 20 and is divisible by 15.
+    Double check with a double condition that its true. (example below)
+"""
+x = 21
+if x>20 and x%7 == 0:
+    print('x is greater than 20 and divisible by 7')
+else:
+    print('x doesnt meet both conditions!')
+ 
+#%%
 """
 here is a quick example of a while and for loop - which we will go into in more detail in the next session
 While True - in stretch set a variable to True that will become false after breaking a threshold
