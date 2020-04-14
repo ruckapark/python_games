@@ -53,7 +53,6 @@ os.chdir('..')
 player_size = 64
 enemy_size = 32
 bullet_size = 32
-
 #%% 4. blit the images in to their desired locations - think about this relative to their size and screen size
 
 running = True

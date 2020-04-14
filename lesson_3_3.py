@@ -65,7 +65,6 @@ for i in range(difficulty):
     enemyY.append(2*enemy_size)
 
 #%% 3. Account for the multiple enemies and add the event key for shooting and moving
-
 running = True
 while running:
     
