@@ -5,7 +5,43 @@ Created on Mon Mar 30 10:19:27 2020
 @author: George
 """
 
-#%% while loops - run according to a True or a False
+#%% 
+#range is called an iterator (runs through numbers). Let's see what it looks like as a list    
+print(list(range(10)))
+
+#it doesnt matter what the temporary variable is called, but it has to be consistent
+for i in range(10):
+    print(i)
+for x in range(1,11):
+    print(x)
+for number in range(23,28):
+    print(number)
+
+#let's add some family members    
+family = ['mum','dad','sister','brother']
+for member in family:
+    print(member)
+    
+#now lets add the ages
+ages = [60,65,21,0]
+for age in ages:
+    print(age)
+    
+length = 4
+length = len(ages) #could also be len(family)
+for x in range(length):
+    print(family[x],'is',ages[x],'years old!')
+    
+"""
+Exercises:
+    1.Take your list of game characters and make a for loop that prints their names
+    2. Add a message to the for loop - print(char,'is a game character')
+    3. Make a new list that has a speed variable for each character called speeds.
+    Then work out the length of the lists using len() and make a for loop that prints
+    a message for each character and their speed (like i did with my family and the ages)
+"""
+
+#%% while loops - run according to a True or a False (remember if statements)
 x = 1
 while x < 5:
     print(x,'is less than 5')
@@ -29,18 +65,16 @@ while running:
     for i in range(enemies):
         if i == 8: 
             running = False
-    
-#by far the most common time to force break out of a loop is when a condition is met
-for number in range(5):
-    print(number)
-    
-for number in range(5):
-    print(number)
-    if number == 2: 
-        break
+            
+"""
+Exercises: Make a new if condition to stop the while loop instead of i == 8
+           When you make running = False, print a message saying the game has finished
+           
+           If you finish this you can go on an keep trying to add more for loops and if
+           statements into the while  loop!
+"""
    
 #make a game loop that is a game of rock paper scissors
-#ROCK PAPER SCISSORS
 import random
 running = True
 answers = ['rock','paper','scissors']
@@ -76,14 +110,29 @@ while running:
         running = False
     
     i+=1
-
+#challenge is to fill in the elif and else parts yourself - Then play against the computer!
 #%% functions - remember pass or ...
 def add(x,y):
     addition = x + y
     return addition
 
+sum1 = add(1,3)
+sum2 = add(2,6)
+print('1 + 3 is',sum1,'2 + 6 is',sum2)
+
 def subtract(x,y):
     return x - y
+print(subtract(10,25))
+
+def my_name():
+    print('my name is George')
+
+def random_name():
+    import random
+    names = ['George','Max','Harry','Jess','Michael','John','Susan']
+    index = random.randint(0,len(names))
+    return names[index]
+print(random_name())
 
 def is_prime(x):
     """
@@ -91,7 +140,7 @@ def is_prime(x):
     """
     i = 2
     prime = 1
-    while i <= x**0.5:
+    while i <= x*0.5:
         if x%i == 0:
             prime = 0
             break
@@ -99,7 +148,18 @@ def is_prime(x):
         # print(i)
     if prime: return True
     else: return False
+is_prime(73) #should give true
 
+"""
+Exercises:
+    1. Make a function that divides two number
+    2. Make a function that takes a number, adds 5, then returns the new number (test it!)
+    3. See if you can make a function that prints a random number from 1-10 (similar to random_name())
+    4. Use a for loop to print only the prime numbers up to 100 - hint is below!
+"""
+for i in range(50):
+    if is_prime(i):
+        print(i,'is prime!')
 
 #%% no longer in notbooke 
     #classes and objects - this concept is really important for games
