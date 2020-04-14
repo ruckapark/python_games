@@ -8,8 +8,8 @@ Created on Mon Mar 30 10:19:27 2020
 #%% while loops - run according to a True or a False
 x = 1
 while x < 5:
-    print('{} is less than 5'.format(x))
-    x += 1
+    print(x,'is less than 5')
+    x = x + 1
     
 #typical game loop
 running = True
@@ -46,15 +46,6 @@ running = True
 answers = ['rock','paper','scissors']
 i = 0
 while running:
-    #best of three
-    if i == 3:
-        if score > 0:
-            print('You win!')
-        elif score == 0:
-            print('Its a draw!')
-        else:
-            print('You lose...')
-        running = False
     answer = input('Rock, Paper, Scissors?').lower()
     comp = answers[random.randint(0,2)]
     
@@ -73,6 +64,16 @@ while running:
     else:
         #try to fill these in yourself!
         pass
+    
+    #best of three
+    if i == 3:
+        if score > 0:
+            print('You win!')
+        elif score == 0:
+            print('Its a draw!')
+        else:
+            print('You lose...')
+        running = False
     
     i+=1
 
@@ -174,20 +175,6 @@ class Person:
 
 p1 = Person("John", 36)
 p1.myfunc()
-
-# something that can be useful to know is what we call a recurring function!
-def factorial_recursive(n):
-    # Base case: 1! = 1
-    if n == 1:
-        return 1
-
-    # Recursive case: n! = n * (n-1)!
-    else:
-        return n * factorial_recursive(n-1)
-    
-#now n = 3 so we want to run the same code as above until we get to n = 1 this is what will happen if we run:
-factorial = factorial_recursive(4)
-    
 
 #%% see if you can do these ones by yourselves
 
