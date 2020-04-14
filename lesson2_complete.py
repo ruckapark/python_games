@@ -277,23 +277,21 @@ print(np.transpose(x))
 import turtle
 
 george = turtle.Turtle()
-
+screen = turtle.Screen()
 # set the speed to the highest setting
 george.speed(1)
-
+screen.clearscreen()
 # draw a square
 for i in range(4):
   george.forward(50)
   george.right(90)
 
-# move the turtle
+# move the turtle without drawing
 george.penup()
-
 george.back(50)
 george.right(90)
 george.forward(55)
 george.left(90)
-
 george.pendown()
 
 # draw a triangle
@@ -303,11 +301,9 @@ for i in range(3):
 
 # move the turtle
 george.penup()
-
 george.back(40)
 george.right(90)
 george.back(50)
-
 george.pendown()
 
 # draw a circle
@@ -339,6 +335,7 @@ george.penup()
 george.forward(100)
 george.pendown()
 
+#first color is outline, second is fill color
 george.color('red','blue')
 george.begin_fill()
 square(george,75)

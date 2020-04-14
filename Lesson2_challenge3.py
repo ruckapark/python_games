@@ -9,7 +9,6 @@ import random
 
 colors = ['red','blue','green','black','orange','purple','yellow','white']
 num_colors = len(colors)
-
 #screen width and height
 width,height = 300,200
 
@@ -17,13 +16,6 @@ def rand_col():
     return colors[random.randint(0,num_colors-1)]
 
 def circle(turtle_):
-    """
-    input the turtle to draw a random size and colour circle at the point x,y on you screen
-    
-    color_line = border colour
-    color_fill = fill colour
-    I want mainly red shade for the circles (weird clouds), and less blue for the borders (matches background)
-    """
     
     x = random.randint(-width,width)
     y = random.randint(-height,height)
