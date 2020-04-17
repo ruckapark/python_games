@@ -166,7 +166,7 @@ for i in range(50):
     #each independant thing is an object!
     # a class can be thought of as a template
     
-class ClassA:
+class EnemyClass:
     #a default speed for all objects of class A
     def __init__(self):
         self.speed = 10
@@ -177,11 +177,13 @@ class ClassA:
         print("This {} is moving at {} m/s".format(self.player_type,self.speed))
         
 # we now have a variable that contains a python object of classA
-enemy_1 = ClassA()
-enemy_2 = ClassA()
-enemy_3 = ClassA()
+enemy_1 = EnemyClass()
+enemy_2 = EnemyClass()
+enemy_3 = EnemyClass()
 enemy_3.speed = 5      #make it a bit slower
 print(enemy_1.speed)
+
+#use a function!
 enemy_3.describe()
 
 """
@@ -218,7 +220,7 @@ class Person:
     mysillyobject.name = name
     mysillyobject.age = age
 
-  def myfunc(abc):
+  def myname(abc):
     print("Hello my name is " + abc.name)
 
 p1 = Person("John", 36)
